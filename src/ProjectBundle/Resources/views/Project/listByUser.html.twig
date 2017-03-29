@@ -1,0 +1,82 @@
+{% extends "::base.html.twig" %}
+
+	{% block title %}
+		{{ app.user.firstname|capitalize ~' '~ app.user.name|upper }}
+	{% endblock %}
+
+	{% block brand %}
+       
+    {% endblock %}
+
+    {% block container %}
+    	<div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>
+                    <h2 class="intro-text text-center"> 
+                        <strong>Gestion de mes Projets</strong>
+                    </h2>
+                    <hr> 
+    	                
+		            <div class="panel panel-info">
+		                <div class="panel-heading">
+		                    Mes projets
+		                </div>
+		                <!-- /.panel-heading -->
+		                <div class="panel-body">
+		                    <div class="table-responsive">
+		                        <table class="table table-hover table-bordered table-striped">
+		                            <thead>
+		                                <tr>
+		                                    <th>Nom</th>
+		                                    <th>Role</th>
+		                                    <th>Date de début</th>
+		                                    <th>Date de fin</th>
+		                                    <th>Action</th>
+		                                </tr>
+		                            </thead>
+		                            <tbody>
+		                                {% if projects is not empty %}
+		                                    {% for project in projects %}
+		                                        <tr>
+		                                            <td>{{ project[1].name|upper }}</td>
+		                                            <td>
+		                                            	{% if project[0] == 1 %}
+		                                            		<p>Développement</p>
+		                                            	{% elseif project[0] == 2 %}
+		                                            		<p>Intégration</p>
+		                                            	{% elseif project[0] == 3 %}
+		                                            		<p>Référent technique</p>
+		                                            	{% elseif project[0] == 4 %}
+		                                            		<p>Gestion de projet</p>
+		                                            	{% elseif project[0] == 5 %}
+		                                            		<p>Invité</p>
+		                                            	{% endif %}
+		                                            </td>		                                            
+		                                            <td>{{ project[1].beginDate|date('d-m-Y') }}</td>		                                            
+		                                            <td>{{ project[1].endDate|date('d-m-Y') }}</td>		                                            
+		                                            <td>
+		                                            	<a href="{{ path('project_edit',{idProject:project[1].id}) }}">Détail</a>
+		                                            	{% if project[0] == 3 or project[0] == 4 %}
+			                                            	<a href="{{ path('project_update',{idProject:project[1].id}) }}">Mise à jour de ce projet</a>
+			                                            	<a href="{{ path('team_members_project_addTeamMember',{origin:3, idTeamMember: project[2].id}) }}" onclick="return(confirm('Etes-vous sûr de vouloir retirer des users de ce projet ?'))"><button>Suppression d'users sur le projet</button></a>
+			                                            {% endif %}
+		                                            </td>
+		                                        </tr>
+		                                    {% endfor %}
+		                                {% else %}                                  
+		                                    <p>Aucun projet ne vous est affecté !</p>
+		                                {% endif %}
+		                            </tbody>
+		                        </table>                           
+		                               
+		                    </div>
+		                    <!-- /.table-responsive -->
+		                </div>
+		                <!-- /.panel-body -->
+		            </div>
+		            <!-- /.panel -->
+		        </div>               
+		    </div>
+        </div>
+    {% endblock %}

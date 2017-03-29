@@ -1,0 +1,154 @@
+{% extends "::base.html.twig" %}
+
+	{% block container %}       
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12 text-center">
+                   
+                    <h2 class="brand-before">
+                        <small>Welcome to</small>
+                    </h2>
+                    <h1 class="brand-name">Adveris</h1>
+                    <hr class="tagline-divider">
+                    <h2>
+                        <small>By
+                            <strong>Christophe Houlet</strong>
+                        </small>
+                    </h2>
+                    <div style="font-size: 22px;text-align:center;">
+                        {% if is_granted('ROLE_USER') %}
+                            Bienvenue {{ app.user.firstname ~ ' ' ~ app.user.name }} !
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>
+                    <h2 class="intro-text text-center">Outil de 
+                        <strong>Gestion de Projets</strong>
+                    </h2>
+                    <hr> 
+
+                        {% for message in app.session.flashBag.get('create') %}                       
+                            {{ message }}
+                            <hr/>
+                        {% endfor %}
+
+                        {% for messag in app.session.flashBag.get('edit') %}
+                            {{ messag }}
+                            <hr/>
+                        {% endfor %}
+
+                        {% for messa in app.session.flashBag.get('remove') %}
+                            {{ messa }}
+                            <hr/>
+                        {% endfor %}
+
+                        {% for mess in app.session.flashBag.get('addTeam') %}
+                            {{ mess }}
+                            <hr/>
+                        {% endfor %}
+
+                        {% for mes in app.session.flashBag.get('addMember') %}
+                            {{ mes }}
+                            <hr/>
+                        {% endfor %}
+
+                         {% for me in app.session.flashBag.get('removeMembers') %}
+                            {{ me }}
+                            <hr/>
+                        {% endfor %}
+
+                        {% for textmes in app.session.flashBag.get('removeMember') %}
+                            {{ textmes }}
+                            <hr/>
+                        {% endfor %}
+
+                        {% for textme in app.session.flashBag.get('duplication') %}
+                            {{ textme }}
+                            <hr/>
+                        {% endfor %}
+
+                        {% for textm in app.session.flashBag.get('echec') %}
+                            {{ textm }}
+                            <hr/>
+                        {% endfor %}
+
+                         {% for textmessage in app.session.flashBag.get('echecRights') %}
+                            {{ textmessage }}
+                            <hr/>
+                        {% endfor %}
+
+                    <hr class="visible-xs">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique sit amet erat vel tincidunt. Pellentesque ligula nisi, aliquet eget nulla nec, volutpat lobortis nisi. Aliquam accumsan erat lacus, vel blandit elit dictum vitae. Sed est neque, gravida id justo nec, vulputate varius nisi. Proin ullamcorper, purus quis sollicitudin sagittis, libero ligula consectetur purus, ac porttitor neque magna ut odio. Nulla tristique mollis leo non pellentesque. Sed nec ligula a erat ornare ultricies sed a magna. Duis aliquet faucibus accumsan. Nulla interdum, eros maximus pretium malesuada, ante enim pretium ipsum, nec malesuada nulla urna vitae urna. Quisque sit amet tortor lacinia, vestibulum eros quis, sollicitudin tortor. Donec maximus, nisl condimentum iaculis porta, tortor leo auctor elit, interdum sollicitudin ipsum tellus imperdiet sem. Duis vel neque ac justo ultricies pellentesque.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">                
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Liste des projets
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Slug</th>
+                                    <th>Date de début</th>
+                                    <th>Date de fin</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if listProjects is not empty %}
+                                    {% for project in listProjects %}
+                                        <tr>
+                                            <td>{{ project.name|upper }}</td>
+                                            <td>{{ project.slug }}</td>
+                                            <td>{{ project.beginDate|date('d-m-Y') }}</td>
+                                            <td>{{ project.endDate|date('d-m-Y') }}</td>
+                                            <td><a href="{{ path('project_edit',{idProject:project.id}) }}">Détail</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}                                  
+                                    <p>Aucun projet n'est encore enregistré !</p>
+                                {% endif %}
+                            </tbody>
+                        </table>                           
+                               
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->                
+        </div>
+
+        {% if user is not null and role is not null %}
+            {% if role == 3 %}
+                <div class="row">
+                    <div class="box">
+                         <div class="col-md-12">
+                            <div class="col-md-6 text-center">
+                                <a href="{{ path('project_create') }}"><button class="btn btn-info">Créer un projet</button></a>                    
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <a href="{{ path('team_members_project_addTeamMember', {origin:1, idTeamMember:0}) }}"><button class="btn btn-success">Créer une équipe-projet</button></a>                                            
+                            </div>
+                        </div> 
+                    </div>
+                </div>         
+            {% endif %}
+        {% endif %}
+       
+    {% endblock %}
+

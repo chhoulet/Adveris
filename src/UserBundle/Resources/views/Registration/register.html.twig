@@ -1,0 +1,24 @@
+{% extends "::base.html.twig" %}
+
+	{% block brand %}
+		<div class="brand">Connection</div> 
+	{% endblock %}
+
+	{% block container %}
+		{% block fos_user_content %}
+
+			<div class="container" style="text-align:center;background-color: white;">
+				<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
+	    			{{ form_row(form.username) }}
+					{{ form_row(form.firstname) }}
+					{{ form_row(form.name) }}				
+					{{ form_row(form.email) }}
+					{{ form_row(form.plainPassword) }}
+				    <div>
+				        <input type="submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+				    </div>
+				</form>
+			</div>				
+
+		{% endblock fos_user_content %}
+	{% endblock %}

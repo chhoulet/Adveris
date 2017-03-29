@@ -1,0 +1,47 @@
+{% extends '::base.html.twig' %}
+
+	{% block title %}
+		{% if origin == 1 %}
+			Créer une équipe-projet
+		{% elseif origin == 2 %}
+			Mise à jour d'une équipe-projet
+        {% elseif origin == 3 %}
+            Suppression de membres
+		{% endif %}
+	{% endblock %}
+
+	{% block brand %}
+		{% if origin == 1 %}
+			<div class="brand">Créer une équipe-projet</div>
+		{% elseif origin == 2 %}
+			<div class="brand">Mise à jour d'une équipe-projet</div>
+        {% elseif origin == 3 %}
+            <div class="brand">Suppression de membres</div>
+		{% endif %}        
+    {% endblock %}
+
+    {% block container %}            
+    	<div class="row">
+    		<div class="box">
+    			<div class="col-md-12">
+    				<h2>
+    					{% if origin == 1 %}
+							<p>Créer une équipe-projet</p>
+						{% elseif origin == 2 %}
+							<p>Mise à jour d'une équipe-projet</p>
+                        {% elseif origin == 3 %}
+                            <p>Suppression de membres</p>
+						{% endif %}
+    				</h2>
+    				{{form_start(form)}}
+    					{{form_row(form.role)}}
+    					{{form_row(form.project)}}
+    					{{form_row(form.users)}}
+    					<div class="col-md-12" style="text-align: center;margin-top:35px;margin-bottom:35px;">
+    						{{form_row(form.Validez)}}
+    						{{form_end(form)}}
+    					</div>
+    			</div>
+    		</div>
+    	</div>
+    {% endblock %}

@@ -1,0 +1,44 @@
+#Homepage 
+project_homepage:
+    path:     /
+    defaults: { _controller: ProjectBundle:Project:home}
+
+# Gestion des projets: CRUD
+project_create:
+    path:    /project/create 
+    defaults: { _controller: ProjectBundle:Project:create}
+
+project_update:
+    path:    /project/update/{idProject}
+    defaults: { _controller: ProjectBundle:Project:update}
+    requirements:
+        idProject: "[0-9]+"
+
+project_edit:
+    path:    /project/edit/{idProject}
+    defaults: { _controller: ProjectBundle:Project:edit}
+    requirements:
+        idProject: "[0-9]+"
+
+project_remove:
+    path:    /project/remove/{idProject}
+    defaults: { _controller: ProjectBundle:Project:remove}
+    requirements:
+        idProject: "[0-9]+"
+
+# Gestion des Team_members
+team_members_project_addTeamMember:
+    path:   /project/add-team-member/{origin}/{idTeamMember}
+    defaults: { _controller: ProjectBundle:TeamMember:addTeamMember}
+    requirements:
+        origin: "[1-3]+"
+        idTeamMember: "[0-9]+"
+
+# Gestion des projets d'un user
+project_user_listByUser:
+    path:    /project/projectByUser/listByUser/{userId}
+    defaults: { _controller: ProjectBundle:Project:listByUser}
+    requirements:
+        userId: "[0-9]+"
+
+

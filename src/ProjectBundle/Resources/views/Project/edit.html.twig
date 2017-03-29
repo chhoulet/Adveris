@@ -1,0 +1,86 @@
+{% extends "::base.html.twig" %}
+
+	{% block title %}
+		Edition {{ project.name }}
+	{% endblock %}
+
+	{% block brand %}
+        <div class="brand">{{ project.name }}</div>
+        <div class="address-bar">
+	        <p>Date de début : {{ project.beginDate|date('d-m-Y') }}</p>
+	        <p>Date de fin : {{ project.endDate|date('d-m-Y') }}</p>
+        </div>        
+    {% endblock %}
+
+    {% block container %}
+
+    	<div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>			    	
+			    		<table class="table table-bordered table-striped">
+			    			<caption><h2>Liste des utilisateurs</h2></caption>
+			    			<thead>
+			                    <tr>                   
+			                        <th>Role</th>
+			                        <th>Membres</th>			                        
+			                        <th>Action</th>			                        
+			                    </tr>
+			                </thead>
+			                <tbody>
+				                	{% if team_members is not empty %}
+					                    {% for team in team_members %}
+					                		<tr>				                	
+					                            <td>
+					                            	{% if team.role == 1 %}
+					                            		<p>Développement</p>
+						                            {% elseif team.role == 2 %}
+						                            	<p>Intégration</p>
+						                            {% elseif team.role == 3 %}
+						                            	<p>Référent technique</p>
+						                            {% elseif team.role == 4 %}
+						                            	<p>Gestion de projet</p>
+						                            {% elseif team.role == 5 %}
+						                            	<p>Invité</p>
+					                            	{% endif %}
+					                            </td>
+					                            <td>
+					                            	{% if team.users is not empty %}
+						                            	{% for user in team.users %}
+						                            		{{user.id}}			                            		
+						                            	{% endfor %}
+						                            {% endif %}
+					                            </td>
+					                            <td>
+					                            	{% if role == 4 %}
+					                            		<a href="{{ path('team_members_project_addTeamMember',{origin:2, idTeamMember:team.id}) }}"><button>Ajout d'un user - Mise à jour de l'équipe</button></a>
+					                            		<a href="{{ path('team_members_project_addTeamMember',{origin:3, idTeamMember:team.id}) }}" onclick="return(confirm('Etes-vous sûr de vouloir retirer des users de ce projet ?'))"><button>Suppression d'users sur le projet</button></a>
+					                            	{% endif %}
+					                            </td> 
+					                        </tr>
+				                        {% endfor %}
+				                	{% else %}
+				                		<tr>
+				                			<td colspan="3">Aucun intervenant sur ce projet !</td>
+					            		</tr>
+				                	{% endif %}                   			                           
+				            </tbody>
+				        </table>
+				</div>
+
+            	{% if role == 3 or role == 4 %}
+					<div class="col-md-12" style="margin-top:25px;margin-bottom: 25px;text-align:center;">
+						<div class="col-md-6">
+	            			<a href="{{ path('project_remove',{idProject:project.id}) }}" onclick="return(confirm('Etes-vous sûr de vouloir supprimer ce projet ?'))"><button class="btn btn-danger btn-lg">Supprimer ce projet</button></a>
+	            		</div>
+	            		<div class="col-md-6">
+	            			<a href="{{ path('project_update',{idProject:project.id}) }}"><button class="btn btn-info btn-lg">Mise à jour de ce projet</button></a>
+	            		</div>
+	            	</div>
+            	{% endif %}
+
+			</div>
+		</div>
+
+    {% endblock %}
+
